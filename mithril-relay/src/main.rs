@@ -11,7 +11,7 @@ use std::{path::PathBuf, sync::Arc};
 #[derive(Parser, Debug, Clone)]
 #[clap(name = "mithril-relay")]
 #[clap(
-    about = "This program is a relay for Mithril nodes.",
+    about = "This program is a relay for Mithril aggregator and signer nodes.",
     long_about = None
 )]
 #[command(version)]
