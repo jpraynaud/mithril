@@ -94,7 +94,9 @@ $SED -i "${ARTIFACTS_DIR_TEMP}/configuration.yaml" \
      -e '/ByronGenesisFile/ aConwayGenesisFile: shelley/genesis.conway.json' \
      -e 's/RequiresNoMagic/RequiresMagic/' \
      -e 's/LastKnownBlockVersion-Major: 0/LastKnownBlockVersion-Major: 6/' \
-     -e 's/LastKnownBlockVersion-Minor: 2/LastKnownBlockVersion-Minor: 0/'
+     -e 's/LastKnownBlockVersion-Minor: 2/LastKnownBlockVersion-Minor: 0/' \
+     -e 's/MaxConcurrencyBulkSync: 1/MaxConcurrencyBulkSync: 4/' \
+     -e 's/MaxConcurrencyDeadline: 2/MaxConcurrencyDeadline: 4/' \
 
 echo "TestShelleyHardForkAtEpoch: 0" >> "${ARTIFACTS_DIR_TEMP}/configuration.yaml"
 echo "TestAllegraHardForkAtEpoch: 0" >> "${ARTIFACTS_DIR_TEMP}/configuration.yaml"
