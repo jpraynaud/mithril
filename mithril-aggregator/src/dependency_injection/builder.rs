@@ -1228,28 +1228,24 @@ impl DependenciesBuilder {
                     message: "cannot build aggregator runner: no epoch returned.".to_string(),
                     error: None,
                 })?;
-            let (work_epoch, epoch_to_sign, next_epoch_to_sign) = match current_epoch {
-                Epoch(0) => (Epoch(0), Epoch(1), Epoch(2)),
-                epoch => (
-                    epoch.offset_to_signer_retrieval_epoch().unwrap(),
-                    epoch.offset_to_next_signer_retrieval_epoch(),
-                    epoch.offset_to_next_signer_retrieval_epoch().next(),
-                ),
-            };
             let protocol_parameters_store = self.get_protocol_parameters_store().await?;
 
-            if protocol_parameters_store
-                .get_protocol_parameters(work_epoch)
-                .await
-                .map_err(|e| DependenciesBuilderError::Initialization {
-                    message: "can not create aggregator runner".to_string(),
-                    error: Some(e),
-                })?
-                .is_none()
-            {
-                debug!("First launch, will use the configured protocol parameters for the current and next epoch certificate");
+            let work_epoch = current_epoch
+                .offset_to_signer_retrieval_epoch()
+                .unwrap_or(Epoch(0));
+            for epoch_offset in 0..=3 {
+                let epoch = work_epoch + epoch_offset;
+                if protocol_parameters_store
+                    .get_protocol_parameters(epoch)
+                    .await
+                    .map_err(|e| DependenciesBuilderError::Initialization {
+                        message: "can not create aggregator runner".to_string(),
+                        error: Some(e),
+                    })?
+                    .is_none()
+                {
+                    debug!("First launch, will record protocol parameters for epoch: {epoch}");
 
-                for epoch in [work_epoch, epoch_to_sign, next_epoch_to_sign] {
                     protocol_parameters_store
                         .save_protocol_parameters(
                             epoch,

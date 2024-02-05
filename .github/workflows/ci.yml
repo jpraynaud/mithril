@@ -268,11 +268,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        mode: ["std"]
+        mode: ["std", "p2p"]
         era: ${{ fromJSON(needs.build-ubuntu-X64.outputs.eras) }}
         cardano_node_version: ["8.7.3"]
         hard_fork_latest_era_at_epoch: [0,10,100]
-        run_id: ["#1","#2"]
+        run_id: ["#1","#2","#3"]
         extra_args: [""]
 
         include:
