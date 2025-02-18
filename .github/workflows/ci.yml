@@ -15,6 +15,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test-fork:
+    runs-on: ubuntu-20.04
+    if: (github.event_name == 'push' || github.event_name == 'pull_request') && secrets.GOOGLE_APPLICATION_CREDENTIALS != ''
+    steps:
+      - name: Debug info
+        shell: bash
+        run: |
+          echo "Main repo=${{ github.event.pull_request.base.repo.name }}"
+
   build-ubuntu-X64:
     runs-on: ubuntu-22.04
     outputs:
