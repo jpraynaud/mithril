@@ -11,6 +11,8 @@ As a minor extension, we have adopted a slightly different versioning convention
 
 - Added a new internal crate `mithril-merkle-tree` for the implementation of Merkle tree and merkelized map primitives used by Mithril nodes.
 
+- Implemented new message id format for the DMQ message following the [CIP-0137](https://cips.cardano.org/cip/CIP-0137) specification.
+
 | Crate | Version |
 | ----- | ------- |
 | N/A   | `-`     |
